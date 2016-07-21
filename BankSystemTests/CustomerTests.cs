@@ -47,12 +47,14 @@ namespace BankSystemTests
 			#region Arrange
 			Customer customer = new Customer("Sven Svensson");
 			Account account = new Account("Savings", 250, false);
+			List<Account> accountList = new List<Account>();
 			#endregion
 
 			#region Act
+			accountList = customer.GetAllAccounts();
 			bool result = customer.AddAccount(account);
 			bool expected = true;
-			int resultTwo = customer.GetAllAccounts().Count;
+			int resultTwo = accountList.Count;
 			int expectedTwo = 1;
 			#endregion
 
