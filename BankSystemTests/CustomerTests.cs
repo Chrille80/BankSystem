@@ -113,6 +113,42 @@ namespace BankSystemTests
 		}
 
 		[TestMethod]
+		public void TestGetSpecificAccount_GetAccountWhenNoAccount_Null()
+		{
+			#region Arrange
+			Customer customer = new Customer("Per Persson");
+			#endregion
+
+			#region Act
+			Account result = customer.GetSpecificAccount("Savings account");
+			Account expected = null;
+			#endregion
+
+			#region Assert
+			Assert.AreEqual(expected, result);
+			#endregion
+		}
+		[TestMethod]
+		public void TestGetSpecificAccount_GetAccountWhenNameMatches_AccountWithMatchingName()
+		{
+			#region Arrange
+			Customer customer = new Customer("Per Persson");
+			Account account = new Account("Poker winnings", 6500, false);
+			customer.AddAccount(account);
+			#endregion
+
+			#region Act
+			Account matchingAccount = customer.GetSpecificAccount("Poker winnings");
+			string result = matchingAccount.GetAccountName();
+			string expected = "Poker winnings";
+			#endregion
+
+			#region Assert
+			Assert.AreEqual(expected, result);
+			#endregion
+		}
+
+		[TestMethod]
 		public void TestGetAllAccounts_GetAccountsWhenNoAccounts_EmptyList()
 		{
 			#region Arrange

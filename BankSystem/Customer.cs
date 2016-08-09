@@ -29,6 +29,11 @@ namespace BankSystem
 			return true;
 		}
 
+		public Account GetSpecificAccount(string name)
+		{
+			return Accounts.SingleOrDefault(account => account.GetAccountName() == name);
+		}
+
 		public List<Account> GetAllAccounts()
 		{
 			return Accounts;
