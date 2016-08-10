@@ -16,24 +16,22 @@ namespace BankSystem
 		{
 			BankHandler bankHandler = new BankHandler();
 
-			//foreach (Vehicle v in garage)
-			//{
-			//	Console.WriteLine(v);
-			//}
+			
 
 			int parsedInt = 1;
 
 			while (parsedInt != 0)
 			{
 				Console.WriteLine("\n*********************************************************");
-				Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 5, 6, 7 or 0) of your choice:\n"
-				+ "\n1. Display a list of all accounts."
-				+ "\n2. Display the balance of a specific account."
-				+ "\n3. Display transaction history for a specific account."
-				+ "\n4. Make account deposit."
-				+ "\n5. Make account withdrawal."
-				+ "\n6. Make transfer between accounts."
-				+ "\n7. Lock an account."
+				Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 5, 6, 7, 8 or 0) of your choice:\n"
+				+ "\n1. Add an account."
+				+ "\n2. Display a list of all accounts."
+				+ "\n3. Display the balance of a specific account."
+				+ "\n4. Display transaction history for a specific account."
+				+ "\n5. Make account deposit."
+				+ "\n6. Make account withdrawal."
+				+ "\n7. Make transfer between accounts."
+				+ "\n8. Lock an account."
 				+ "\n0. Exit the application");
 
 
@@ -45,32 +43,35 @@ namespace BankSystem
 				switch (parsedInt)
 				{
 					case 1:
-						int parsedCapacityInt;
+						int parsedBalanceInt;
+						
 
 						Console.Clear();
-						Console.WriteLine("Decide the capacity of the Garage:");
+						Console.WriteLine("Type the name of the account:");
 
-						while (!int.TryParse(Console.ReadLine(), out parsedCapacityInt))
+						string accountName = Console.ReadLine();
+
+						Console.WriteLine("Set the initial account balance:");
+
+						while (!int.TryParse(Console.ReadLine(), out parsedBalanceInt))
 						{
 							Console.WriteLine("Try again:");
 						}
 
-						garage = new Garage<Vehicle>(parsedCapacityInt);
+						Account tmpAccount = new Account(accountName, parsedBalanceInt, false);
 
-						garage.addVehicleToGarage(vehicle1);
-						garage.addVehicleToGarage(vehicle2);
-						garage.addVehicleToGarage(vehicle3);
-						garage.addVehicleToGarage(vehicle4);
-						garage.addVehicleToGarage(vehicle5);
-						garage.addVehicleToGarage(vehicle6);
-						garage.addVehicleToGarage(vehicle7);
-						garage.addVehicleToGarage(vehicle8);
+						bankHandler.AddAccountToCustomer(tmpAccount);
 
-						Console.WriteLine("Created a new garage with " + parsedCapacityInt + " parking slots!");
+						Console.WriteLine("Added the account " + accountName + " to customer!");
 
 						break;
 					case 2:
 						int parsedIDInt;
+
+						//foreach (Vehicle v in garage)
+						//{
+						//	Console.WriteLine(v);
+						//}
 
 						Console.Clear();
 						Console.WriteLine("Type the ID of the vehicletype you want to add:\n1. Airplane \n2. Motorcycle" +
@@ -81,214 +82,216 @@ namespace BankSystem
 							Console.WriteLine("Try again:");
 						}
 
-						switch (parsedIDInt)
-						{
-							case 1:
-								string isJetplane;
-								double parsedWingspanDouble;
-								bool boolIsJetplane = false;
-
-								Program.scanBaseProperties();
-
-								Console.WriteLine("Is it a jetplane? Type 'y' or 'n':");
-								isJetplane = Console.ReadLine();
-								if (isJetplane.Equals("y"))
-								{
-									boolIsJetplane = true;
-								}
-
-								Console.WriteLine("Enter the wingspan:");
-								while (!double.TryParse(Console.ReadLine(), out parsedWingspanDouble))
-								{
-									Console.WriteLine("Try again:");
-								}
-
-								Airplane airplane = new Airplane("Airplane", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-									boolIsJetplane, parsedWingspanDouble);
-								garage.addVehicleToGarage(airplane);
-
-								break;
-							case 2:
-								string gotSidewagon;
-								double parsedCylinderVolumeDouble;
-								bool boolGotSidewagon = false;
-
-								Program.scanBaseProperties();
-
-								Console.WriteLine("Enter the cylinder volume:");
-								while (!double.TryParse(Console.ReadLine(), out parsedCylinderVolumeDouble))
-								{
-									Console.WriteLine("Try again:");
-								}
-
-								Console.WriteLine("Does the motorcycle have a sidewagon? Type 'y' or 'n':");
-								gotSidewagon = Console.ReadLine();
-								if (gotSidewagon.Equals("y"))
-								{
-									boolGotSidewagon = true;
-								}
-
-								Motorcycle motorcycle = new Motorcycle("Motorcycle", reg_Nr, color, manufacturer, parsedTopSpeedInt,
-									parsedNumberOfWheelsInt, parsedCylinderVolumeDouble, boolGotSidewagon);
-								garage.addVehicleToGarage(motorcycle);
-
-								break;
-							case 3:
-								string gotElectricEngine;
-								int parsedNumberOfDoorsInt;
-								bool boolGotElectricEngine = false;
-
-								Program.scanBaseProperties();
-
-								Console.WriteLine("Enter number of doors:");
-								while (!int.TryParse(Console.ReadLine(), out parsedNumberOfDoorsInt))
-								{
-									Console.WriteLine("Try again:");
-								}
-
-								Console.WriteLine("Does the car have an electric engine? Type 'y' or 'n':");
-								gotElectricEngine = Console.ReadLine();
-								if (gotElectricEngine.Equals("y"))
-								{
-									boolGotElectricEngine = true;
-								}
-
-								Car car = new Car("Car", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-									parsedNumberOfDoorsInt, boolGotElectricEngine);
-								garage.addVehicleToGarage(car);
-
-								break;
-							case 4:
-								string isDoubleDecker;
-								int parsedPassengerCapacityInt;
-								bool boolIsDoubleDecker = false;
-
-								Program.scanBaseProperties();
-
-								Console.WriteLine("Is the bus a doubledecker? Type 'y' or 'n':");
-								isDoubleDecker = Console.ReadLine();
-								if (isDoubleDecker.Equals("y"))
-								{
-									boolIsDoubleDecker = true;
-								}
-
-								Console.WriteLine("Enter the passenger capacity:");
-								while (!int.TryParse(Console.ReadLine(), out parsedPassengerCapacityInt))
-								{
-									Console.WriteLine("Try again:");
-								}
-
-								Bus bus = new Bus("Bus", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-									boolIsDoubleDecker, parsedPassengerCapacityInt);
-								garage.addVehicleToGarage(bus);
-
-								break;
-							case 5:
-								string isSailBoat;
-								int parsedNumberOfPropellersInt;
-								bool boolIsSailBoat = false;
-
-								Program.scanBaseProperties();
-
-								Console.WriteLine("Enter the number of propellers:");
-								while (!int.TryParse(Console.ReadLine(), out parsedNumberOfPropellersInt))
-								{
-									Console.WriteLine("Try again:");
-								}
-
-								Console.WriteLine("Is the boat a sailboat? Type 'y' or 'n':");
-								isSailBoat = Console.ReadLine();
-								if (isSailBoat.Equals("y"))
-								{
-									boolIsSailBoat = true;
-								}
-
-								Boat boat = new Boat("Boat", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-									parsedNumberOfPropellersInt, boolIsSailBoat);
-								garage.addVehicleToGarage(boat);
-
-								break;
-							default:
-								Console.WriteLine("\nPlease enter some valid input (1, 2, 3, 4, or 5)\n");
-
-								break;
-						}
-
 						break;
-					case 3:
-						Console.Clear();
-						garage.sortAndGetAllVehiclesInGarage();
 
-						foreach (Vehicle v in garage)
-						{
-							Console.WriteLine(v);
-						}
+						//switch (parsedIDInt)
+						//{
+						//	case 1:
+						//		string isJetplane;
+						//		double parsedWingspanDouble;
+						//		bool boolIsJetplane = false;
 
-						break;
-					case 4:
-						string[] parametersArray = new string[4];
+						//		Program.scanBaseProperties();
 
-						Console.Clear();
-						Console.WriteLine("Type in the parameters you want to include in the filtering.\nIf you want to leave any " +
-											"parameter out, type '!': \n1. Color \n2. Manufacturer" +
-											"\n3. Top speed \n4. Number of wheels");
+						//		Console.WriteLine("Is it a jetplane? Type 'y' or 'n':");
+						//		isJetplane = Console.ReadLine();
+						//		if (isJetplane.Equals("y"))
+						//		{
+						//			boolIsJetplane = true;
+						//		}
 
-						for (int i = 1; i < 5; i++)
-						{
-							Console.Write(i + ": ");
-							parametersArray[i - 1] = Console.ReadLine();
-						}
+						//		Console.WriteLine("Enter the wingspan:");
+						//		while (!double.TryParse(Console.ReadLine(), out parsedWingspanDouble))
+						//		{
+						//			Console.WriteLine("Try again:");
+						//		}
 
-						List<Vehicle> tmpList = garage.getAllVehiclesByOptionalColorManufacturerTopSpeedNumberOfWheels(parametersArray[0],
-							parametersArray[1], parametersArray[2], parametersArray[3]);
+						//		Airplane airplane = new Airplane("Airplane", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
+						//			boolIsJetplane, parsedWingspanDouble);
+						//		garage.addVehicleToGarage(airplane);
 
-						Console.WriteLine(tmpList.Count + " vehicles matches the criteria:\n");
+						//		break;
+						//	case 2:
+						//		string gotSidewagon;
+						//		double parsedCylinderVolumeDouble;
+						//		bool boolGotSidewagon = false;
 
-						foreach (Vehicle v in tmpList)
-						{
-							Console.WriteLine(v);
-						}
+						//		Program.scanBaseProperties();
 
-						break;
-					case 5:
-						Console.Clear();
-						Console.WriteLine("What type of vehicle do you want to search for?");
-						string vehicleType = Console.ReadLine();
+						//		Console.WriteLine("Enter the cylinder volume:");
+						//		while (!double.TryParse(Console.ReadLine(), out parsedCylinderVolumeDouble))
+						//		{
+						//			Console.WriteLine("Try again:");
+						//		}
 
-						tmpList = garage.getAllVehiclesByType(vehicleType);
-						Console.WriteLine(tmpList.Count + " vehicles matches the criteria:\n");
+						//		Console.WriteLine("Does the motorcycle have a sidewagon? Type 'y' or 'n':");
+						//		gotSidewagon = Console.ReadLine();
+						//		if (gotSidewagon.Equals("y"))
+						//		{
+						//			boolGotSidewagon = true;
+						//		}
 
-						foreach (Vehicle v in tmpList)
-						{
-							Console.WriteLine(v);
-						}
+						//		Motorcycle motorcycle = new Motorcycle("Motorcycle", reg_Nr, color, manufacturer, parsedTopSpeedInt,
+						//			parsedNumberOfWheelsInt, parsedCylinderVolumeDouble, boolGotSidewagon);
+						//		garage.addVehicleToGarage(motorcycle);
 
-						break;
-					case 6:
-						Console.Clear();
-						Console.WriteLine("Type the registration number of the vehicle you want to list:");
-						string registrationNumber = Console.ReadLine();
+						//		break;
+						//	case 3:
+						//		string gotElectricEngine;
+						//		int parsedNumberOfDoorsInt;
+						//		bool boolGotElectricEngine = false;
 
-						Vehicle vehicle = garage.getVehicleByRegistrationNumber(registrationNumber);
+						//		Program.scanBaseProperties();
 
-						Console.WriteLine(vehicle);
+						//		Console.WriteLine("Enter number of doors:");
+						//		while (!int.TryParse(Console.ReadLine(), out parsedNumberOfDoorsInt))
+						//		{
+						//			Console.WriteLine("Try again:");
+						//		}
 
-						break;
-					case 7:
-						Console.Clear();
-						garage.sortAndGetAllVehiclesInGarage();
+						//		Console.WriteLine("Does the car have an electric engine? Type 'y' or 'n':");
+						//		gotElectricEngine = Console.ReadLine();
+						//		if (gotElectricEngine.Equals("y"))
+						//		{
+						//			boolGotElectricEngine = true;
+						//		}
 
-						foreach (Vehicle v in garage)
-						{
-							Console.WriteLine(v);
-						}
+						//		Car car = new Car("Car", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
+						//			parsedNumberOfDoorsInt, boolGotElectricEngine);
+						//		garage.addVehicleToGarage(car);
 
-						Console.WriteLine("\nType the registration number of the vehicle you want to remove:");
-						registrationNumber = Console.ReadLine();
+						//		break;
+						//	case 4:
+						//		string isDoubleDecker;
+						//		int parsedPassengerCapacityInt;
+						//		bool boolIsDoubleDecker = false;
 
-						garage.removeVehicleByRegistrationNumber(registrationNumber);
+						//		Program.scanBaseProperties();
 
-						break;
+						//		Console.WriteLine("Is the bus a doubledecker? Type 'y' or 'n':");
+						//		isDoubleDecker = Console.ReadLine();
+						//		if (isDoubleDecker.Equals("y"))
+						//		{
+						//			boolIsDoubleDecker = true;
+						//		}
+
+						//		Console.WriteLine("Enter the passenger capacity:");
+						//		while (!int.TryParse(Console.ReadLine(), out parsedPassengerCapacityInt))
+						//		{
+						//			Console.WriteLine("Try again:");
+						//		}
+
+						//		Bus bus = new Bus("Bus", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
+						//			boolIsDoubleDecker, parsedPassengerCapacityInt);
+						//		garage.addVehicleToGarage(bus);
+
+						//		break;
+						//	case 5:
+						//		string isSailBoat;
+						//		int parsedNumberOfPropellersInt;
+						//		bool boolIsSailBoat = false;
+
+						//		Program.scanBaseProperties();
+
+						//		Console.WriteLine("Enter the number of propellers:");
+						//		while (!int.TryParse(Console.ReadLine(), out parsedNumberOfPropellersInt))
+						//		{
+						//			Console.WriteLine("Try again:");
+						//		}
+
+						//		Console.WriteLine("Is the boat a sailboat? Type 'y' or 'n':");
+						//		isSailBoat = Console.ReadLine();
+						//		if (isSailBoat.Equals("y"))
+						//		{
+						//			boolIsSailBoat = true;
+						//		}
+
+						//		Boat boat = new Boat("Boat", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
+						//			parsedNumberOfPropellersInt, boolIsSailBoat);
+						//		garage.addVehicleToGarage(boat);
+
+						//		break;
+						//	default:
+						//		Console.WriteLine("\nPlease enter some valid input (1, 2, 3, 4, or 5)\n");
+
+						//		break;
+						//}
+
+						
+					//case 3:
+					//	Console.Clear();
+					//	garage.sortAndGetAllVehiclesInGarage();
+
+					//	foreach (Vehicle v in garage)
+					//	{
+					//		Console.WriteLine(v);
+					//	}
+
+					//	break;
+					//case 4:
+					//	string[] parametersArray = new string[4];
+
+					//	Console.Clear();
+					//	Console.WriteLine("Type in the parameters you want to include in the filtering.\nIf you want to leave any " +
+					//						"parameter out, type '!': \n1. Color \n2. Manufacturer" +
+					//						"\n3. Top speed \n4. Number of wheels");
+
+					//	for (int i = 1; i < 5; i++)
+					//	{
+					//		Console.Write(i + ": ");
+					//		parametersArray[i - 1] = Console.ReadLine();
+					//	}
+
+					//	List<Vehicle> tmpList = garage.getAllVehiclesByOptionalColorManufacturerTopSpeedNumberOfWheels(parametersArray[0],
+					//		parametersArray[1], parametersArray[2], parametersArray[3]);
+
+					//	Console.WriteLine(tmpList.Count + " vehicles matches the criteria:\n");
+
+					//	foreach (Vehicle v in tmpList)
+					//	{
+					//		Console.WriteLine(v);
+					//	}
+
+					//	break;
+					//case 5:
+					//	Console.Clear();
+					//	Console.WriteLine("What type of vehicle do you want to search for?");
+					//	string vehicleType = Console.ReadLine();
+
+					//	tmpList = garage.getAllVehiclesByType(vehicleType);
+					//	Console.WriteLine(tmpList.Count + " vehicles matches the criteria:\n");
+
+					//	foreach (Vehicle v in tmpList)
+					//	{
+					//		Console.WriteLine(v);
+					//	}
+
+					//	break;
+					//case 6:
+					//	Console.Clear();
+					//	Console.WriteLine("Type the registration number of the vehicle you want to list:");
+					//	string registrationNumber = Console.ReadLine();
+
+					//	Vehicle vehicle = garage.getVehicleByRegistrationNumber(registrationNumber);
+
+					//	Console.WriteLine(vehicle);
+
+					//	break;
+					//case 7:
+					//	Console.Clear();
+					//	garage.sortAndGetAllVehiclesInGarage();
+
+					//	foreach (Vehicle v in garage)
+					//	{
+					//		Console.WriteLine(v);
+					//	}
+
+					//	Console.WriteLine("\nType the registration number of the vehicle you want to remove:");
+					//	registrationNumber = Console.ReadLine();
+
+					//	garage.removeVehicleByRegistrationNumber(registrationNumber);
+
+					//	break;
 					case 0:
 						return;
 
