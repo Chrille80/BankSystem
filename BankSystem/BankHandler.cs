@@ -27,6 +27,11 @@ namespace BankSystem
 		{
 			return theCustomer.GetAllAccounts();
 		}
+
+		public Account GetSpecificCustomerAccount(string accountName)
+		{
+			return theCustomer.GetSpecificAccount(accountName);
+		}
 	}
 	
 }

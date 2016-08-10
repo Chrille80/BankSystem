@@ -12,7 +12,7 @@ namespace BankSystemTests
 		public void TestAddAccountToCustomer_AddOneAccount_ListWithTwoAccounts()
 		{
 			#region Arrange
-			//The BankHandler constructor adds a customer with one account
+			//The BankHandler constructor adds a customer with one account, named "Vacation savings"
 			BankHandler bankHandler = new BankHandler();
 			Account account = new Account("Gasoline account", 2500, false);
 			#endregion
@@ -32,7 +32,7 @@ namespace BankSystemTests
 		public void TestGetAllCustomerAccounts_GetAllAccountsWhenThreeAccounts_ListWithThreeAccounts()
 		{
 			#region Arrange
-			//The BankHandler constructor adds a customer with one account
+			//The BankHandler constructor adds a customer with one account, named "Vacation savings"
 			BankHandler bankHandler = new BankHandler();
 			Account account = new Account("Gasoline account", 2500.75, false);
 			Account accountTwo = new Account("Travel account", 8500.12, false);
@@ -49,5 +49,24 @@ namespace BankSystemTests
 			Assert.AreEqual(expected, result);
 			#endregion
 		}
+
+		[TestMethod]
+		public void TestGetSpecificCustomerAccount_GetSpecificAccountWhenNameMatches_SpecificAccountWithMatchingName()
+		{
+			#region Arrange
+			BankHandler bankHandler = new BankHandler();
+			#endregion
+
+			#region Act
+			Account account = bankHandler.GetSpecificCustomerAccount("Vacation savings");
+			string result = account.GetAccountName();
+			string expected = "Vacation savings";
+			#endregion
+
+			#region Assert
+			Assert.AreEqual(expected, result);
+			#endregion
+		}
+
 	}
 }

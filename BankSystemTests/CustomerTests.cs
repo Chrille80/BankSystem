@@ -129,7 +129,7 @@ namespace BankSystemTests
 			#endregion
 		}
 		[TestMethod]
-		public void TestGetSpecificAccount_GetAccountWhenNameMatches_AccountWithMatchingName()
+		public void TestGetSpecificAccount_GetSpecificAccountWhenNameMatches_SpecificAccountWithMatchingName()
 		{
 			#region Arrange
 			Customer customer = new Customer("Per Persson");
