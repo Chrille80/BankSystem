@@ -65,5 +65,10 @@ namespace BankSystem
 			IsLocked = true;
 			return false;
 		}
+
+		public override string ToString()
+		{
+			return "Account name: " + AccountName + ", Balance: " + Balance;
+		}
 	}
 }

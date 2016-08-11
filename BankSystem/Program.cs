@@ -8,32 +8,29 @@ namespace BankSystem
 {
 	class Program
 	{
-		//static string reg_Nr, color, manufacturer;
-		//static int parsedTopSpeedInt, parsedNumberOfWheelsInt;
-
 		
 		static void Main(string[] args)
 		{
 			BankHandler bankHandler = new BankHandler();
+			List<Account> accountList;
+			Account tmpAccount;
+			string accountName;
 
-			
 
 			int parsedInt = 1;
 
 			while (parsedInt != 0)
 			{
 				Console.WriteLine("\n*********************************************************");
-				Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 5, 6, 7, 8 or 0) of your choice:\n"
+				Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 5, 6, 7, or 0) of your choice:\n"
 				+ "\n1. Add an account."
 				+ "\n2. Display a list of all accounts."
-				+ "\n3. Display the balance of a specific account."
-				+ "\n4. Display transaction history for a specific account."
-				+ "\n5. Make account deposit."
-				+ "\n6. Make account withdrawal."
-				+ "\n7. Make transfer between accounts."
-				+ "\n8. Lock an account."
+				+ "\n3. Display detailed information of a specific account."
+				+ "\n4. Make account deposit."
+				+ "\n5. Make account withdrawal."
+				+ "\n6. Make transfer between accounts."
+				+ "\n7. Lock an account."
 				+ "\n0. Exit the application");
-
 
 				while (!int.TryParse(Console.ReadLine(), out parsedInt))
 				{
@@ -49,7 +46,7 @@ namespace BankSystem
 						Console.Clear();
 						Console.WriteLine("Type the name of the account:");
 
-						string accountName = Console.ReadLine();
+						accountName = Console.ReadLine();
 
 						Console.WriteLine("Set the initial account balance:");
 
@@ -58,201 +55,95 @@ namespace BankSystem
 							Console.WriteLine("Try again:");
 						}
 
-						Account tmpAccount = new Account(accountName, parsedBalanceInt, false);
+						tmpAccount = new Account(accountName, parsedBalanceInt, false);
 
 						bankHandler.AddAccountToCustomer(tmpAccount);
 
-						Console.WriteLine("Added the account " + accountName + " to customer!");
+						Console.WriteLine("Added the account '" + accountName + "' to customer!");
 
 						break;
 					case 2:
-						int parsedIDInt;
-
-						//foreach (Vehicle v in garage)
-						//{
-						//	Console.WriteLine(v);
-						//}
-
+			
 						Console.Clear();
-						Console.WriteLine("Type the ID of the vehicletype you want to add:\n1. Airplane \n2. Motorcycle" +
-											"\n3. Car \n4. Bus \n5. Boat");
 
-						while (!int.TryParse(Console.ReadLine(), out parsedIDInt) || (parsedIDInt < 1 || parsedIDInt > 5))
+						Console.WriteLine("Listing all customer accounts:\n");
+						
+						accountList = bankHandler.GetAllCustomerAccounts();
+						
+						foreach (Account acc in accountList)
 						{
-							Console.WriteLine("Try again:");
+							Console.WriteLine(acc);
 						}
 
 						break;
-
-						//switch (parsedIDInt)
-						//{
-						//	case 1:
-						//		string isJetplane;
-						//		double parsedWingspanDouble;
-						//		bool boolIsJetplane = false;
-
-						//		Program.scanBaseProperties();
-
-						//		Console.WriteLine("Is it a jetplane? Type 'y' or 'n':");
-						//		isJetplane = Console.ReadLine();
-						//		if (isJetplane.Equals("y"))
-						//		{
-						//			boolIsJetplane = true;
-						//		}
-
-						//		Console.WriteLine("Enter the wingspan:");
-						//		while (!double.TryParse(Console.ReadLine(), out parsedWingspanDouble))
-						//		{
-						//			Console.WriteLine("Try again:");
-						//		}
-
-						//		Airplane airplane = new Airplane("Airplane", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-						//			boolIsJetplane, parsedWingspanDouble);
-						//		garage.addVehicleToGarage(airplane);
-
-						//		break;
-						//	case 2:
-						//		string gotSidewagon;
-						//		double parsedCylinderVolumeDouble;
-						//		bool boolGotSidewagon = false;
-
-						//		Program.scanBaseProperties();
-
-						//		Console.WriteLine("Enter the cylinder volume:");
-						//		while (!double.TryParse(Console.ReadLine(), out parsedCylinderVolumeDouble))
-						//		{
-						//			Console.WriteLine("Try again:");
-						//		}
-
-						//		Console.WriteLine("Does the motorcycle have a sidewagon? Type 'y' or 'n':");
-						//		gotSidewagon = Console.ReadLine();
-						//		if (gotSidewagon.Equals("y"))
-						//		{
-						//			boolGotSidewagon = true;
-						//		}
-
-						//		Motorcycle motorcycle = new Motorcycle("Motorcycle", reg_Nr, color, manufacturer, parsedTopSpeedInt,
-						//			parsedNumberOfWheelsInt, parsedCylinderVolumeDouble, boolGotSidewagon);
-						//		garage.addVehicleToGarage(motorcycle);
-
-						//		break;
-						//	case 3:
-						//		string gotElectricEngine;
-						//		int parsedNumberOfDoorsInt;
-						//		bool boolGotElectricEngine = false;
-
-						//		Program.scanBaseProperties();
-
-						//		Console.WriteLine("Enter number of doors:");
-						//		while (!int.TryParse(Console.ReadLine(), out parsedNumberOfDoorsInt))
-						//		{
-						//			Console.WriteLine("Try again:");
-						//		}
-
-						//		Console.WriteLine("Does the car have an electric engine? Type 'y' or 'n':");
-						//		gotElectricEngine = Console.ReadLine();
-						//		if (gotElectricEngine.Equals("y"))
-						//		{
-						//			boolGotElectricEngine = true;
-						//		}
-
-						//		Car car = new Car("Car", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-						//			parsedNumberOfDoorsInt, boolGotElectricEngine);
-						//		garage.addVehicleToGarage(car);
-
-						//		break;
-						//	case 4:
-						//		string isDoubleDecker;
-						//		int parsedPassengerCapacityInt;
-						//		bool boolIsDoubleDecker = false;
-
-						//		Program.scanBaseProperties();
-
-						//		Console.WriteLine("Is the bus a doubledecker? Type 'y' or 'n':");
-						//		isDoubleDecker = Console.ReadLine();
-						//		if (isDoubleDecker.Equals("y"))
-						//		{
-						//			boolIsDoubleDecker = true;
-						//		}
-
-						//		Console.WriteLine("Enter the passenger capacity:");
-						//		while (!int.TryParse(Console.ReadLine(), out parsedPassengerCapacityInt))
-						//		{
-						//			Console.WriteLine("Try again:");
-						//		}
-
-						//		Bus bus = new Bus("Bus", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-						//			boolIsDoubleDecker, parsedPassengerCapacityInt);
-						//		garage.addVehicleToGarage(bus);
-
-						//		break;
-						//	case 5:
-						//		string isSailBoat;
-						//		int parsedNumberOfPropellersInt;
-						//		bool boolIsSailBoat = false;
-
-						//		Program.scanBaseProperties();
-
-						//		Console.WriteLine("Enter the number of propellers:");
-						//		while (!int.TryParse(Console.ReadLine(), out parsedNumberOfPropellersInt))
-						//		{
-						//			Console.WriteLine("Try again:");
-						//		}
-
-						//		Console.WriteLine("Is the boat a sailboat? Type 'y' or 'n':");
-						//		isSailBoat = Console.ReadLine();
-						//		if (isSailBoat.Equals("y"))
-						//		{
-						//			boolIsSailBoat = true;
-						//		}
-
-						//		Boat boat = new Boat("Boat", reg_Nr, color, manufacturer, parsedTopSpeedInt, parsedNumberOfWheelsInt,
-						//			parsedNumberOfPropellersInt, boolIsSailBoat);
-						//		garage.addVehicleToGarage(boat);
-
-						//		break;
-						//	default:
-						//		Console.WriteLine("\nPlease enter some valid input (1, 2, 3, 4, or 5)\n");
-
-						//		break;
-						//}
-
+					case 3:
+						Console.Clear();
+		
+						accountList = bankHandler.GetAllCustomerAccounts();
 						
-					//case 3:
-					//	Console.Clear();
-					//	garage.sortAndGetAllVehiclesInGarage();
+						foreach (Account acc in accountList)
+						{
+							Console.WriteLine(acc);
+						}
 
-					//	foreach (Vehicle v in garage)
-					//	{
-					//		Console.WriteLine(v);
-					//	}
+						Console.WriteLine("\nType the name of the account you want to show details from:\n");
 
-					//	break;
-					//case 4:
-					//	string[] parametersArray = new string[4];
+						accountName = Console.ReadLine();
+						tmpAccount = bankHandler.GetSpecificCustomerAccount(accountName);
 
-					//	Console.Clear();
-					//	Console.WriteLine("Type in the parameters you want to include in the filtering.\nIf you want to leave any " +
-					//						"parameter out, type '!': \n1. Color \n2. Manufacturer" +
-					//						"\n3. Top speed \n4. Number of wheels");
+						if(tmpAccount != null)
+						{
+							List<double> transactionList = tmpAccount.GetAllTransactions();
 
-					//	for (int i = 1; i < 5; i++)
-					//	{
-					//		Console.Write(i + ": ");
-					//		parametersArray[i - 1] = Console.ReadLine();
-					//	}
+							Console.WriteLine("Detailed information of account " + tmpAccount.GetAccountName() + ":\n");
+							Console.WriteLine("Balance: " + tmpAccount.GetAccountBalance());
+							Console.WriteLine("Locked for withdrawals: " + tmpAccount.GetLockedStatus());
 
-					//	List<Vehicle> tmpList = garage.getAllVehiclesByOptionalColorManufacturerTopSpeedNumberOfWheels(parametersArray[0],
-					//		parametersArray[1], parametersArray[2], parametersArray[3]);
+							Console.WriteLine("Transactions: ");
 
-					//	Console.WriteLine(tmpList.Count + " vehicles matches the criteria:\n");
+							foreach (double ta in transactionList)
+							{
+								Console.WriteLine(ta);
+							}
+						}
+						else
+							Console.WriteLine("The account does not exist!");
 
-					//	foreach (Vehicle v in tmpList)
-					//	{
-					//		Console.WriteLine(v);
-					//	}
+						break;
+					case 4:
+						int parsedDepositInt;
 
-					//	break;
+						Console.Clear();
+
+						accountList = bankHandler.GetAllCustomerAccounts();
+
+						foreach (Account acc in accountList)
+						{
+							Console.WriteLine(acc);
+						}
+						
+						Console.WriteLine("Enter the name of the account you want to make a deposit to:\n");
+
+						accountName = Console.ReadLine();
+						tmpAccount = bankHandler.GetSpecificCustomerAccount(accountName);
+
+						if(tmpAccount != null)
+						{
+							Console.WriteLine("Enter the amount you want to deposit to the account:\n");
+							
+							while (!int.TryParse(Console.ReadLine(), out parsedDepositInt))
+							{
+								Console.WriteLine("Try again:");
+							}
+
+							tmpAccount.Deposit(parsedDepositInt);
+
+							Console.WriteLine("Deposited " + parsedDepositInt + " to the account!\n");
+						}
+						else
+							Console.WriteLine("The account does not exist!");
+		
+						break;
 					//case 5:
 					//	Console.Clear();
 					//	Console.WriteLine("What type of vehicle do you want to search for?");
