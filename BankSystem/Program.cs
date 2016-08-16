@@ -15,6 +15,7 @@ namespace BankSystem
 			List<Account> accountList;
 			Account tmpAccount;
 			string accountName;
+			int parsedWithdrawalInt, parsedDepositInt;
 
 
 			int parsedInt = 1;
@@ -29,7 +30,7 @@ namespace BankSystem
 				+ "\n4. Make account deposit."
 				+ "\n5. Make account withdrawal."
 				+ "\n6. Make transfer between accounts."
-				+ "\n7. Lock an account."
+				+ "\n7. Lock/unlock an account."
 				+ "\n0. Exit the application");
 
 				while (!int.TryParse(Console.ReadLine(), out parsedInt))
@@ -42,7 +43,6 @@ namespace BankSystem
 					case 1:
 						int parsedBalanceInt;
 						
-
 						Console.Clear();
 						Console.WriteLine("Type the name of the account:");
 
@@ -111,7 +111,6 @@ namespace BankSystem
 
 						break;
 					case 4:
-						int parsedDepositInt;
 
 						Console.Clear();
 
@@ -122,7 +121,7 @@ namespace BankSystem
 							Console.WriteLine(acc);
 						}
 						
-						Console.WriteLine("Enter the name of the account you want to make a deposit to:\n");
+						Console.WriteLine("\nEnter the name of the account you want to make a deposit to:\n");
 
 						accountName = Console.ReadLine();
 						tmpAccount = bankHandler.GetSpecificCustomerAccount(accountName);
@@ -144,45 +143,114 @@ namespace BankSystem
 							Console.WriteLine("The account does not exist!");
 		
 						break;
-					//case 5:
-					//	Console.Clear();
-					//	Console.WriteLine("What type of vehicle do you want to search for?");
-					//	string vehicleType = Console.ReadLine();
+					case 5:
 
-					//	tmpList = garage.getAllVehiclesByType(vehicleType);
-					//	Console.WriteLine(tmpList.Count + " vehicles matches the criteria:\n");
+						Console.Clear();
 
-					//	foreach (Vehicle v in tmpList)
-					//	{
-					//		Console.WriteLine(v);
-					//	}
+						accountList = bankHandler.GetAllCustomerAccounts();
 
-					//	break;
-					//case 6:
-					//	Console.Clear();
-					//	Console.WriteLine("Type the registration number of the vehicle you want to list:");
-					//	string registrationNumber = Console.ReadLine();
+						foreach (Account acc in accountList)
+						{
+							Console.WriteLine(acc);
+						}
+						
+						Console.WriteLine("\nEnter the name of the account you want to make a withdrawal from:\n");
 
-					//	Vehicle vehicle = garage.getVehicleByRegistrationNumber(registrationNumber);
+						accountName = Console.ReadLine();
+						tmpAccount = bankHandler.GetSpecificCustomerAccount(accountName);
 
-					//	Console.WriteLine(vehicle);
+						if(tmpAccount != null)
+						{
+							Console.WriteLine("Enter the amount you want to withdraw from the account:\n");
+							
+							while (!int.TryParse(Console.ReadLine(), out parsedWithdrawalInt))
+							{
+								Console.WriteLine("Try again:");
+							}
 
-					//	break;
-					//case 7:
-					//	Console.Clear();
-					//	garage.sortAndGetAllVehiclesInGarage();
+							if(tmpAccount.Withdraw(parsedWithdrawalInt))
+							{
+								Console.WriteLine("Withdrew " + parsedWithdrawalInt + " from the account!\n");
+							}
+							else
+							{
+								Console.WriteLine("Withdrawal from the account is not possible at the moment");
+							}		
+						}
+						else
+							Console.WriteLine("The account does not exist!");
 
-					//	foreach (Vehicle v in garage)
-					//	{
-					//		Console.WriteLine(v);
-					//	}
+						break;
+					case 6:
 
-					//	Console.WriteLine("\nType the registration number of the vehicle you want to remove:");
-					//	registrationNumber = Console.ReadLine();
+						Console.Clear();
 
-					//	garage.removeVehicleByRegistrationNumber(registrationNumber);
+						int parsedTransferInt = 0;
+						accountList = bankHandler.GetAllCustomerAccounts();
 
-					//	break;
+						foreach (Account acc in accountList)
+						{
+							Console.WriteLine(acc);
+						}
+						
+						Console.WriteLine("\nEnter the name of the account you want to transfer from:\n");
+						string accountNameWdr = Console.ReadLine();
+						Account tmpAccountOne = bankHandler.GetSpecificCustomerAccount(accountNameWdr);
+
+						Console.WriteLine("\nEnter the name of the account you want to transfer to:\n");
+						string accountNameDep = Console.ReadLine();
+						Account tmpAccountTwo = bankHandler.GetSpecificCustomerAccount(accountNameDep);
+
+						if(tmpAccountOne != null && tmpAccountTwo != null && !tmpAccountOne.GetLockedStatus())
+						{
+							Console.WriteLine("\nEnter the amount to transfer between the accounts:\n");
+
+							while (!int.TryParse(Console.ReadLine(), out parsedTransferInt))
+							{
+								Console.WriteLine("Try again:");
+							}
+
+							tmpAccountOne.Withdraw(parsedTransferInt);
+							tmpAccountTwo.Deposit(parsedTransferInt);
+
+							Console.WriteLine("\nTransfered " + parsedTransferInt + " from " + accountNameWdr + " to " + accountNameDep + "!");
+						}
+						
+						else
+							Console.WriteLine("One or both of the accounts does not exist, or the withdrawal account is locked.");
+						break;
+					case 7:
+						Console.Clear();
+				
+						accountList = bankHandler.GetAllCustomerAccounts();
+
+						foreach (Account acc in accountList)
+						{
+							Console.WriteLine(acc);
+						}
+						
+						Console.WriteLine("\nEnter the name of the account you want to lock/unlock:\n");
+
+						accountName = Console.ReadLine();
+						tmpAccount = bankHandler.GetSpecificCustomerAccount(accountName);
+
+						if(tmpAccount != null)
+						{
+							if(tmpAccount.GetLockedStatus())
+							{
+								tmpAccount.SetLockedStatus(false);
+								Console.WriteLine("The account is now unlocked!");
+							} 
+							else 
+							{
+								tmpAccount.SetLockedStatus(true);
+								Console.WriteLine("The account is now locked!");
+							}			
+						}
+						else
+							Console.WriteLine("The account does not exist!");
+						
+						break;
 					case 0:
 						return;
 
